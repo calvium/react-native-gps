@@ -99,7 +99,7 @@ public class RNLocationModule extends ReactContextBaseJavaModule{
                     params.putDouble("latitude", latitude);
                     params.putDouble("speed", speed);
                     params.putDouble("altitude", altitude);
-                    params.putFloat("accuracy", accuracy);
+                    params.putDouble("accuracy", accuracy);
                     
 
                     // Send Event to JS to update Location
