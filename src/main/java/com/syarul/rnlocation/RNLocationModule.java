@@ -41,11 +41,11 @@ public class RNLocationModule extends ReactContextBaseJavaModule{
         mLastLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
 
-
         @Override
         public String getName() {
           return REACT_CLASS;
         }
+
         /*
          * Location permission request (Not implemented yet)
          */
@@ -53,6 +53,7 @@ public class RNLocationModule extends ReactContextBaseJavaModule{
         public void requestWhenInUseAuthorization(){
           Log.i(TAG, "Requesting authorization");
         }
+
         /*
          * Location Callback as called by JS
          */
@@ -110,9 +111,16 @@ public class RNLocationModule extends ReactContextBaseJavaModule{
               }
 
 
-        }};
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, mLocationListener);
+            }};
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, mLocationListener);
+        }
 
+        @ReactMethod
+        public void stopUpdatingLocation() {
+            if (locationManager != null && mLocationListener != null) {
+                locationManager.removeUpdates(mLocationListener);
+                mLocationListener = null;
+            }
         }
 
         /*
