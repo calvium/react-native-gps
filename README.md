@@ -58,7 +58,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
       .setBundleAssetName("index.android.bundle")
       .setJSMainModuleName("index.android")
       .addPackage(new MainReactPackage())
-      .addPackage(new RNLocation(this)) // <-- Register package here (Activity added by Calvium so we can show the play services error alert. )
+      .addPackage(new RNLocation()) // <-- Register package here      
       .setUseDeveloperSupport(BuildConfig.DEBUG)
       .setInitialLifecycleState(LifecycleState.RESUMED)
       .build();

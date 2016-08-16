@@ -49,9 +49,9 @@ public class LocationProvider implements
   // Are we Connected?
   public Boolean connected;
 
-  public LocationProvider(Activity context, LocationCallback updateCallback) {
+  public LocationProvider(Activity activity, LocationCallback updateCallback) {
     // Save current Context
-    mActivity = context;
+    mActivity = activity;
     // Save Location Callback
     this.mLocationCallback = updateCallback;
     // Initialize connection "state"
@@ -59,7 +59,7 @@ public class LocationProvider implements
 
     // First we need to check availability of play services
     if (checkPlayServices()) {
-      mGoogleApiClient = new GoogleApiClient.Builder(context)
+      mGoogleApiClient = new GoogleApiClient.Builder(activity)
         .addConnectionCallbacks(this)
         .addOnConnectionFailedListener(this)
         .addApi(LocationServices.API)

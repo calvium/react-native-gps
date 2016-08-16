@@ -14,17 +14,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class RNLocation implements ReactPackage {
-
-    private Activity mActivity;
-
-    public RNLocation(Activity activity) {
-        mActivity = activity;
-    }
-
     @Override
     public List<NativeModule> createNativeModules( ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new RNLocationModule(reactContext, mActivity)
+                new RNLocationModule(reactContext)
         );
     }
     @Override

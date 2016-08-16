@@ -20,14 +20,11 @@ public class RNLocationModule extends ReactContextBaseJavaModule implements Loca
   public static final String TAG = RNLocationModule.class.getSimpleName();
 
   private LocationProvider mLocationProvider;
-  private Activity mActivity;
 
   // Constructor Method as called in Package
-  public RNLocationModule(ReactApplicationContext reactContext, Activity activity)
+  public RNLocationModule(ReactApplicationContext reactContext)
   {
     super(reactContext);
-
-    mActivity = activity;
   }
 
   @Override
@@ -52,7 +49,7 @@ public class RNLocationModule extends ReactContextBaseJavaModule implements Loca
   public void startUpdatingLocation()
   {
     Log.d(TAG, "Starting location updates...");
-    mLocationProvider = new LocationProvider(mActivity, this);
+    mLocationProvider = new LocationProvider(getCurrentActivity(), this);
 
     // Check if all went well and the Google Play Service are available...
     if (!mLocationProvider.checkPlayServices())
