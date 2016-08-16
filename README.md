@@ -1,5 +1,13 @@
 # react-native-gps
 
+## Calvium Updates
+
+Switched to use the Google Location Services in place of the Android services as it is suggested by the Android documentation. This doesn't work in the Android simulator but works much better on a real device. This requires that Google services on the device are up to date. (Is this acceptable? It's ~20 MB). If the device doesn't have them installed, the user will see a google services update message. This module is set to use the 8.3 version of play services from late 2015, so hopefully, everyone will have received that update by now.
+
+*TODO: maybe we should make it fall back on standard Android GPS?
+
+## Overview
+
 Native GPS location support for React Native for Android and IOS. This module was inspired in project of [timfpark](https://github.com/timfpark/react-native-location) and  [syarul](https://github.com/syarul/react-native-android-location). For the moment is not compatible for a PR back to one of that repositories because some methods are not implemented yet and some structure changed. Only a few methods are implemented so if you want to contribute, any contribution of new missing methods will be appreciated.
 
 ## Installation
@@ -50,7 +58,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
       .setBundleAssetName("index.android.bundle")
       .setJSMainModuleName("index.android")
       .addPackage(new MainReactPackage())
-      .addPackage(new RNLocation()) // <-- Register package here
+      .addPackage(new RNLocation(this)) // <-- Register package here (Activity added by Calvium so we can show the play services error alert. )
       .setUseDeveloperSupport(BuildConfig.DEBUG)
       .setInitialLifecycleState(LifecycleState.RESUMED)
       .build();

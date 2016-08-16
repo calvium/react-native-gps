@@ -1,7 +1,9 @@
 package com.syarul.rnlocation;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
@@ -39,7 +41,7 @@ public class LocationProvider implements
   // Location Callback for later use
   private LocationCallback mLocationCallback;
   // Context for later use
-  private Context mContext;
+  private Activity mActivity;
   // Main Google API CLient (Google Play Services API)
   private GoogleApiClient mGoogleApiClient;
   // Location Request for later use
@@ -47,9 +49,9 @@ public class LocationProvider implements
   // Are we Connected?
   public Boolean connected;
 
-  public LocationProvider(Context context, LocationCallback updateCallback) {
+  public LocationProvider(Activity context, LocationCallback updateCallback) {
     // Save current Context
-    mContext = context;
+    mActivity = context;
     // Save Location Callback
     this.mLocationCallback = updateCallback;
     // Initialize connection "state"
@@ -76,9 +78,23 @@ public class LocationProvider implements
    * */
   public boolean checkPlayServices() {
     int resultCode = GooglePlayServicesUtil
-      .isGooglePlayServicesAvailable(mContext);
+      .isGooglePlayServicesAvailable(mActivity);
     if (resultCode != ConnectionResult.SUCCESS) {
       if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+        switch (resultCode) {
+          case ConnectionResult.SERVICE_DISABLED:
+          case ConnectionResult.SERVICE_INVALID:
+          case ConnectionResult.SERVICE_MISSING:
+          case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, mActivity, 0);
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+              @Override
+              public void onCancel(DialogInterface dialogInterface) {
+                Log.e(TAG, "user cancelled Google play services dialog");
+              }
+            });
+            dialog.show();
+        }
         Log.i(TAG, GooglePlayServicesUtil.getErrorString(resultCode));
       } else {
         Log.i(TAG, "This device is not supported.");
@@ -99,7 +115,7 @@ public class LocationProvider implements
    * Disconnects to Google Play Services - Location
    */
   public void disconnect() {
-    if (mGoogleApiClient.isConnected()) {
+    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
       LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
       mGoogleApiClient.disconnect();
     }
@@ -132,9 +148,9 @@ public class LocationProvider implements
          * start a Google Play services activity that can resolve
          * error.
          */
-    if (connectionResult.hasResolution() && mContext instanceof Activity) {
+    if (connectionResult.hasResolution() && mActivity instanceof Activity) {
       try {
-        Activity activity = (Activity)mContext;
+        Activity activity = (Activity)mActivity;
         // Start an Activity that tries to resolve the error
         connectionResult.startResolutionForResult(activity, CONNECTION_FAILURE_RESOLUTION_REQUEST);
             /*

@@ -1,5 +1,7 @@
 package com.syarul.rnlocation;
 
+import android.app.Activity;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -12,10 +14,17 @@ import java.util.Collections;
 import java.util.List;
 
 public class RNLocation implements ReactPackage {
+
+    private Activity mActivity;
+
+    public RNLocation(Activity activity) {
+        mActivity = activity;
+    }
+
     @Override
     public List<NativeModule> createNativeModules( ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new RNLocationModule(reactContext)
+                new RNLocationModule(reactContext, mActivity)
         );
     }
     @Override
