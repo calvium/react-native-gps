@@ -129,15 +129,23 @@ public class LocationProvider implements
     // We are Connected!
     connected = true;
 
-    mLocationCallback.handleConnectionStatus("authorized");
-
-    // First, get Last Location and return it to Callback
-    Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-    if (location != null) {
-      mLocationCallback.handleNewLocation(location);
+    try
+    {
+      // First, get Last Location and return it to Callback
+      Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+      if (location != null)
+      {
+        mLocationCallback.handleNewLocation(location);
+      }
+      // Now request continuous Location Updates
+      LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+      mLocationCallback.handleConnectionStatus("authorized");
     }
-    // Now request continuous Location Updates
-    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    catch (Exception e) {
+      Log.e(TAG, "Couldn't start updating location: " + e.getLocalizedMessage());
+      e.printStackTrace();
+      mLocationCallback.handleConnectionStatus("denied");
+    }
   }
 
   @Override
