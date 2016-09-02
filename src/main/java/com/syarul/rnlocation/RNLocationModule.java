@@ -102,6 +102,11 @@ public class RNLocationModule extends ReactContextBaseJavaModule implements Loca
     }
   }
 
+  @Override
+  public void handleConnectionStatus(String status) {
+    sendEvent(getReactApplicationContext(), "authorizationStatusDidChange", status);
+  }
+
   @ReactMethod
   public void stopUpdatingLocation()
   {
@@ -112,13 +117,13 @@ public class RNLocationModule extends ReactContextBaseJavaModule implements Loca
   /*
    * Internal function for communicating with JS
    */
-  private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params)
+  private void sendEvent(ReactContext reactContext, String eventName, @Nullable Object data)
   {
     if (reactContext.hasActiveCatalystInstance())
     {
       reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(eventName, params);
+        .emit(eventName, data);
     }
     else
     {

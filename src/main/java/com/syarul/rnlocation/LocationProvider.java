@@ -2,7 +2,6 @@ package com.syarul.rnlocation;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentSender;
 import android.location.Location;
@@ -29,6 +28,7 @@ public class LocationProvider implements
    */
   public abstract interface LocationCallback {
     public abstract void handleNewLocation(Location location);
+    public abstract void handleConnectionStatus(String status);
   }
 
   // Unique Name for Log TAG
@@ -91,6 +91,7 @@ public class LocationProvider implements
               @Override
               public void onCancel(DialogInterface dialogInterface) {
                 Log.e(TAG, "user cancelled Google play services dialog");
+                mLocationCallback.handleConnectionStatus("googleServicesRequired");
               }
             });
             dialog.show();
@@ -98,6 +99,7 @@ public class LocationProvider implements
         Log.i(TAG, GooglePlayServicesUtil.getErrorString(resultCode));
       } else {
         Log.i(TAG, "This device is not supported.");
+        mLocationCallback.handleConnectionStatus("deviceNotSupported");
       }
       return false;
     }
@@ -126,6 +128,9 @@ public class LocationProvider implements
     Log.i(TAG, "Location services connected.");
     // We are Connected!
     connected = true;
+
+    mLocationCallback.handleConnectionStatus("authorized");
+
     // First, get Last Location and return it to Callback
     Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
     if (location != null) {
@@ -160,6 +165,7 @@ public class LocationProvider implements
       } catch (IntentSender.SendIntentException e) {
         // Log the error
         e.printStackTrace();
+        mLocationCallback.handleConnectionStatus("connectionFailed");
       }
     } else {
             /*
@@ -167,6 +173,7 @@ public class LocationProvider implements
              * user with the error.
              */
       Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+      mLocationCallback.handleConnectionStatus("connectionFailed");
     }
   }
 
