@@ -5,11 +5,14 @@
 #import "RCTBridge.h"
 #import "RCTConvert.h"
 #import "RCTEventDispatcher.h"
-
-#else
+#elif __has_include(<React/RCTBridge.h>)
 #import <React/RCTBridge.h>
 #import <React/RCTConvert.h>
 #import <React/RCTEventDispatcher.h>
+#else
+#import "React/RCTBridge.h"
+#import "React/RCTConvert.h"
+#import "React/RCTEventDispatcher.h"
 #endif
 
 #import "RNLocation.h"
