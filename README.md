@@ -6,6 +6,8 @@ Switched to use the Google Location Services in place of the Android services as
 
 *TODO: maybe we should make it fall back on standard Android GPS?
 
+This module is now compatible with RN >= 0.40 and keeps backward compatibility with RN <= 0.39
+
 ## Overview
 
 Native GPS location support for React Native for Android and IOS. This module was inspired in project of [timfpark](https://github.com/timfpark/react-native-location) and  [syarul](https://github.com/syarul/react-native-android-location). For the moment is not compatible for a PR back to one of that repositories because some methods are not implemented yet and some structure changed. Only a few methods are implemented so if you want to contribute, any contribution of new missing methods will be appreciated.
