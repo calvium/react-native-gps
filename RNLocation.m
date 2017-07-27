@@ -1,6 +1,7 @@
 #import <CoreLocation/CoreLocation.h>
 
-// handle the RN 0.39 - 0.40 import breaking change#if __has_include("RCTBridgeModule.h")
+// handle the RN 0.39 - 0.40 import breaking change
+#if __has_include("RCTBridge.h")
 #import "RCTBridge.h"
 #import "RCTConvert.h"
 #import "RCTEventDispatcher.h"
