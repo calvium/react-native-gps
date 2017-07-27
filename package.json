@@ -1,7 +1,7 @@
 {
   "name": "react-native-gps",
   "version": "0.2.0",
-  "devDependencies": {
+  "peerDependencies": {
     "react-native": "^0.14"
   },
   "repository": {

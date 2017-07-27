@@ -1,14 +1,14 @@
 #import <CoreLocation/CoreLocation.h>
 
 // handle the RN 0.39 - 0.40 import breaking change
-#if __has_include("RCTBridge.h")
-#import "RCTBridge.h"
-#import "RCTConvert.h"
-#import "RCTEventDispatcher.h"
-#elif __has_include(<React/RCTBridge.h>)
+#if __has_include(<React/RCTBridge.h>)
 #import <React/RCTBridge.h>
 #import <React/RCTConvert.h>
 #import <React/RCTEventDispatcher.h>
+#elif __has_include("RCTBridge.h")
+#import "RCTBridge.h"
+#import "RCTConvert.h"
+#import "RCTEventDispatcher.h"
 #else
 #import "React/RCTBridge.h"
 #import "React/RCTConvert.h"
