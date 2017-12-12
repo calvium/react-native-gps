@@ -6,7 +6,7 @@ Switched to use the Google Location Services in place of the Android services as
 
 *TODO: maybe we should make it fall back on standard Android GPS?
 
-This module is now compatible with RN >= 0.40 and keeps backward compatibility with RN <= 0.39
+This module now has a breaking change for RN 0.47+, if you use an older version please use the version tagged as 0.3.0.
 
 ## Overview
 
