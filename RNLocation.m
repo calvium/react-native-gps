@@ -31,6 +31,10 @@ RCT_EXPORT_MODULE()
 
 #pragma mark Initialization
 
++ (BOOL)requiresMainQueueSetup {
+    return NO;
+}
+
 - (instancetype)init
 {
     if (self = [super init]) {
